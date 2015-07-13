@@ -336,6 +336,29 @@ function serverResponse(error, data) {
 
         // Color the halfplanes
         var delta = .1
+
+        // Check if plane is entirely one color
+        if (Math.abs(intercept) > 10000) {
+          svg.append("rect")
+                   .attr("x", 0)
+                   .attr("y", 0)
+                   .attr("height", height)
+                   .attr("width", width)
+                   .style("fill", function() {
+                                    var point = [0, intercept + delta];
+                                    console.log('point', point)
+                                    var dotProd = a[0]*point[0] + a[1]*point[1] - beta;
+                                    if (dotProd > 0) {
+                                      return "red";
+                                    }
+                                    else {
+                                      return "green";
+                                    }
+                                  })
+                   .style("opacity", 0.3);
+        }
+
+        // Add halfplanes and margins
         svg.append("rect")
                    .attr("x", 0)
                    .attr("y", intercept)
